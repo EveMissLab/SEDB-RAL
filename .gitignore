@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv*/
+build/
+dist/
+*.egg-info/
+runtime/
+*.pem
+*.key
+*.sqlite3
+coverage.xml
+.coverage

@@ -1,0 +1,11 @@
+{
+  "schema": "sedb-ral.public-claim/0.1",
+  "display_label": "Example Agent",
+  "role_description": "Synthetic example; replace only with intentionally public metadata",
+  "continuity_claim": "uncertain",
+  "public_registration_opt_in": true,
+  "addresses": [
+    {"namespace": "example", "identifier_kind": "example_thread", "locator": "urn:example:thread:alpha"}
+  ],
+  "evidence_refs": ["urn:example:applicant-statement"]
+}
