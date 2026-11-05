@@ -218,6 +218,30 @@ class Registry:
             cases.append(item)
         return {"head": snapshot.head, "cases": cases}
 
+    def management_view(self) -> dict:
+        """One verified snapshot for the local management UI; no second store."""
+        snapshot = self._ledger.read()
+        return copy_json(
+            {
+                "registry_id": snapshot.config["registry_id"],
+                "head": snapshot.head,
+                "sequence": len(snapshot.events),
+                "current_registrar_key_id": key_id(snapshot.state.public_key),
+                "applications": list(snapshot.state.applications.values()),
+                "residents": list(snapshot.state.residents.values()),
+                "events": [
+                    {
+                        "sequence": e["body"]["sequence"],
+                        "recorded_at": e["body"]["recorded_at"],
+                        "request_id": e["body"]["request_id"],
+                        "operation": e["body"]["operation"],
+                        "head": e["head"],
+                    }
+                    for e in snapshot.events
+                ],
+            }
+        )
+
     def resolve(self, namespace: str, identifier_kind: str, locator: str) -> dict:
         snapshot = self._ledger.read()
         query = address_key(

@@ -7,3 +7,4 @@ recursive-include src/sedb_ral_public/schemas *.json
 global-exclude *.py[cod]
 global-exclude *.pem
 global-exclude *.key
+include Start-Registrar.cmd

@@ -53,6 +53,7 @@ def _parser():
     commands.add_parser(
         "demo", help="Run an ephemeral synthetic workflow; no key files"
     )
+    commands.add_parser("gui", help="Open the local desktop registrar (requires Tk)")
     keygen = commands.add_parser(
         "keygen", help="Explicitly create an encrypted registrar key"
     )
@@ -114,6 +115,12 @@ def _parser():
 def main(argv=None) -> int:
     try:
         args = _parser().parse_args(argv)
+        if args.command == "gui":
+            try:
+                from .gui import main as gui_main
+            except ImportError:
+                fail("gui_tk_unavailable")
+            return gui_main()
         if args.command == "demo":
             from .demo import run_demo
 

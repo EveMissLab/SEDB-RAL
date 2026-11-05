@@ -4,7 +4,8 @@ A small, local, registrar-managed AI registration system. MIT licensed.
 
 This preview records applications, registrar attestations, residents, instances,
 addresses and status changes in a signed canonical file ledger. It includes a
-CLI and a Python API; no account, cloud service or host integration is required.
+desktop UI, a CLI and a Python API; no account, cloud service or host integration
+is required.
 
 This is a **separate public data profile** (`sedb-ral.public-registry/0.1`). It
 does not open or migrate another deployment's ledger. Its signed management
@@ -18,6 +19,7 @@ Python 3.11+ is required. Use a new, activated virtual environment. From a sourc
 ```text
 python -m pip install .
 sedb-ral-public demo
+sedb-ral-public gui
 ```
 
 `demo` creates a temporary synthetic registry and an ephemeral in-memory key,
@@ -25,6 +27,36 @@ runs submission, admission, suspension, correction, reactivation and restart
 readback, then removes its own temporary data. It creates no key files and does
 not contact any service. A successful output has `mode=synthetic_demo` and
 `status=PASS`; it is not proof of a real AI or person's identity.
+
+## Desktop management UI
+
+Run `sedb-ral-public gui`, or double-click `Start-Registrar.cmd` in a source
+checkout after installing the dependencies. The desktop interface is currently
+in Traditional Chinese. It requires Python's optional **Tcl/Tk** component
+(included in the standard Windows Python installer; some Linux distributions
+package it separately). The CLI and API do not import Tk.
+
+- **Try demo data** creates a temporary, signed synthetic registry with one
+  resident and one pending application. No key files are created.
+- **Create workspace** explicitly selects a parent directory, creates a new
+  folder with an encrypted registrar key and a public ledger, and opens it.
+  Choose a strong passphrase of at least 12 characters and back it up yourself.
+- **Open ledger** selects the folder containing `registry.json`. It opens
+  read-only; select the encrypted PEM and unlock it to authorize writes.
+- **Applications** supports a structured form / JSON import, an explicit public
+  consent check, search, status filters, evidence-based admission and rejection.
+- **Roster** supports search, status management and public-data correction.
+- **History** shows signed events and the most recent operation receipt.
+
+Writes run off the UI thread. Every operation binds the head shown during
+review. An intervening writer requires refresh and a new deliberate review;
+there is no automatic overwrite, timer or automatic retry. A file/response error
+locks further writes until the last request is checked through **History**.
+
+The UI is an operator workspace, not a remotely accessible applicant portal.
+It starts no network listener, loads no external assets, and does not include
+host authentication, private memory or provider integration. See
+[the desktop guide](docs/DESKTOP.md) for the workflow and limits.
 
 To develop and test:
 
@@ -124,7 +156,7 @@ public label, role or current addresses and remain in the historical ledger.
 
 `rotate-key` records a new public key authorized by the current registrar key.
 The old key cannot authorize later writes. Lost-key recovery, multi-registrar
-quorums, remote services, federation, a graphical UI, filesystem-adversary
+quorums, remote services, federation, filesystem-adversary
 containment and large-scale performance are outside this preview.
 
 Use a local filesystem and one registry owner. The code has Windows and POSIX

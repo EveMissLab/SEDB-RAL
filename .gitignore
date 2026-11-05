@@ -8,6 +8,11 @@ dist/
 runtime/
 *.pem
 *.key
+# Operator-owned workspaces are data, not public source.
+registrar.pub
+registry.json
+events.jsonl
+registry.lock
 *.sqlite3
 coverage.xml
 .coverage
